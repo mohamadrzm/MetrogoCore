@@ -1,0 +1,1 @@
+start cmd /k python -m flask --app server run
