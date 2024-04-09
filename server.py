@@ -54,13 +54,23 @@ def getbestpath():
                             return jsonify('error-dist-source'), 200
                         else:
                             return jsonify('error-source'), 200
-
-                    best_path_list_fa = find_best_path_fa(
-                        source=source, dist=dist)
                     
-                    res = {'stations': best_path_list_fa,
-                           'time': len(best_path_list_fa)*3}
-                    return jsonify(res), 200
+
+                    if data.get('color') == True :
+
+                        best_path_list_fa = find_best_path_fa(
+                            source=source, dist=dist, color=True)
+                        
+                        res = {'stations': best_path_list_fa,
+                            'time': len(best_path_list_fa)*3}
+                        return jsonify(res), 200
+                    else :
+                        best_path_list_fa = find_best_path_fa(
+                            source=source, dist=dist)
+                        
+                        res = {'stations': best_path_list_fa,
+                            'time': len(best_path_list_fa)*3}
+                        return jsonify(res), 200
             else:
                 if data.get('source') == None:
 

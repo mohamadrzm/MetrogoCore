@@ -3,21 +3,21 @@
 ## ❓ what is Metrogo API ?
 
 This is the core of the Metrogo service. It is written in Python language and Flask framework and uses Dijkstra's algorithm to find the best path.
-c
+
 ## 🚀 Quick start :
 
-First, install the prerequisites with the following command :
+First, install the requirements with the following command :
 ```bash
 pip install -r requirements. txt 
 ```
 > [!NOTE]  
 > The metrogo api depends on the flask mini-framework and the dijkstar library.
 
-After installing the prerequisites and to run the server, **if you have Windows**, run :
+After installing the requirements and to run the server, **if you have Windows**, run :
 ```
 win-server.bat
 ```
-and if you have a Linux operating system such as **Linux and Mac OS**, run :
+and if you have a Unix operating system such as **Linux and Mac OS**, run :
 ```
 unix-server.sh
 ```
@@ -29,7 +29,8 @@ unix-server.sh
 {
 "source": "Source station",
 "dist":"Destination station",
-"lang":"API input and output language"
+"lang":"API input and output language",
+"color": true or false #Optional. default is false
 }
 ```
 > [!TIP]
@@ -67,5 +68,34 @@ The api response will be as follows:
 ```
 > [!NOTE]  
 > **time** sends the arrival time between the origin and destination stations
-
+And another example, this time with color :
+```json
+{
+"source": "تئاتر شهر",
+"dist":"تجریش",
+"lang":"farsi",
+"color": true
+}
+```
+The answer will be as follows :
+```json
+{
+    "stations": {
+        "تئاتر شهر": "sky",
+        "میدان حضرت ولیعصر": "sky",
+        "میدان جهاد": "sky",
+        "میرزای شیرازی": "sky",
+        "شهید بهشتی": "red",
+        "مصلی امام خمینی": "red",
+        "شهید همت": "red",
+        "شهید حقانی": "red",
+        "دکتر شریعتی": "red",
+        "قلهک": "red",
+        "شهید صدر": "red",
+        "قیطریه": "red",
+        "تجریش": "red"
+    },
+    "time": 39
+}
+```
 🎂 Do you want to use Metrogo API in React? Follow this link. [Rendering Lists](https://react.dev/learn/rendering-lists)

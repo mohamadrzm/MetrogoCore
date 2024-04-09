@@ -391,7 +391,7 @@ line_7_fa = (
 )
 
 
-def find_best_path_en(source: str, dist: str):
+def find_best_path_en(source: str, dist: str, color = False):
     graph = Graph()
 
 # --- Line 1
@@ -561,13 +561,33 @@ def find_best_path_en(source: str, dist: str):
         except:
             pass
 
-    return find_path(graph, source, dist)[0]
-    del number
-    del number2
-    del graph
+    if color == True :
+        dictpath = {}
+        paths = find_path(graph, source, dist)[0]
+        for i in paths :
+
+            if i in line_1 :
+                dictpath[i] = 'red'
+            elif i in line_2 :
+                dictpath[i] = 'blue'
+            elif i in line_3 :
+                dictpath[i] = 'sky'
+            elif i in line_4 :
+                dictpath[i] = 'yellow'
+            elif i in line_5 :
+                dictpath[i] = 'green'
+            elif i in line_6 :
+                dictpath[i] = 'pink'
+            elif i in line_7 :
+                dictpath[i] = 'purple'
+
+        return dictpath
+    else :
+        return find_path(graph, source, dist)[0]
 
 
-def find_best_path_fa(source: str, dist: str):
+
+def find_best_path_fa(source: str, dist: str , color = False):
 
     graph = Graph()
 # --- Line 1
@@ -739,26 +759,29 @@ def find_best_path_fa(source: str, dist: str):
         except:
             pass
 
-    dictpath = {}
-    paths = find_path(graph, source, dist)[0]
-    for i in paths :
+    if color == True :
+        dictpath = {}
+        paths = find_path(graph, source, dist)[0]
+        for i in paths :
 
-        if i in line_1_fa :
-            dictpath[i] = 'red'
-        elif i in line_2_fa :
-            dictpath[i] = 'blue'
-        elif i in line_3_fa :
-            dictpath[i] = 'sky'
-        elif i in line_4_fa :
-            dictpath[i] = 'yellow'
-        elif i in line_5_fa :
-            dictpath[i] = 'green'
-        elif i in line_6_fa :
-            dictpath[i] = 'pink'
-        elif i in line_7_fa :
-            dictpath[i] = 'purple'
+            if i in line_1_fa :
+                dictpath[i] = 'red'
+            elif i in line_2_fa :
+                dictpath[i] = 'blue'
+            elif i in line_3_fa :
+                dictpath[i] = 'sky'
+            elif i in line_4_fa :
+                dictpath[i] = 'yellow'
+            elif i in line_5_fa :
+                dictpath[i] = 'green'
+            elif i in line_6_fa :
+                dictpath[i] = 'pink'
+            elif i in line_7_fa :
+                dictpath[i] = 'purple'
 
-    return dictpath
+        return dictpath
+    else :
+        return find_path(graph, source, dist)[0]
 
 
 def check_source_station(station: str):
