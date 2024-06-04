@@ -23,7 +23,7 @@ fastapi dev server.py
 {
 "source": "Source station",
 "dist":"Destination station",
-"color": true or false (Optional. default is false)
+"color": true or false
 }
 ```
 > [!TIP]
