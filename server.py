@@ -1,87 +1,22 @@
-from flask import Flask, request, jsonify
-from libs.lib import *
+from fastapi import FastAPI
+from pydantic import BaseModel
+from libs.lib import check_match_name, find_best_path
 
-app = Flask(__name__)
-app.json.sort_keys = False
-@app.route('/getbestpath', methods=['POST', 'GET'])
-def getbestpath():
+class RouteData(BaseModel):
+    source: str
+    destination: str
+    color: bool = False
 
-    if request.method == 'POST':
-        data = request.json
-        if data.get('lang') != None:
-            if data.get('source') != None and data.get('dist') != None:
-                if data.get('lang').upper() == 'ENGLISH':
+app = FastAPI()
 
-                    if check_match_name(station=str(data.get('dist'))) != 1:
-                        dist = check_match_name(station=str(data.get('dist')))
-                    else:
-                        return jsonify('error-source'), 200
-                    if check_match_name(station=str(data.get('source'))) != 1:
-                        source = check_match_name(
-                            station=str(data.get('source')))
-                    else:
-                        return jsonify('error-dist'), 200
-                    best_path_list_en = find_best_path_en(
-                        source=source, dist=dist)
+@app.post("/v1/get_route")
+async def get_route(route_data: RouteData):
+    source = check_match_name(route_data.source)
+    destination = check_match_name(route_data.destination)
 
-                    res = {'stations': best_path_list_en,
-                           'time': len(best_path_list_en)*3}
+    if not source:
+        return 'Source not found!'
+    if not destination:
+        return 'Destination not found!'
 
-                    return jsonify(res), 200
-
-                elif data.get('lang').upper() == 'FARSI':
-
-                    if check_match_name(station=str(data.get('dist'))) != 1:
-
-                        dist = check_match_name(station=str(data.get('dist')))
-
-                    else:
-                        if check_match_name(station=str(data.get('source'))) == 1:
-
-                            return jsonify('error-dist-source'), 200
-                        else:
-                            return jsonify('error-dist'), 200
-
-                    if check_match_name(station=str(data.get('source'))) != 1:
-
-                        source = check_match_name(
-                            station=str(data.get('source')))
-
-                    else:
-
-                        if check_match_name(station=str(data.get('dist'))) == 1:
-
-                            return jsonify('error-dist-source'), 200
-                        else:
-                            return jsonify('error-source'), 200
-                    
-
-                    if data.get('color') == True :
-
-                        best_path_list_fa = find_best_path_fa(
-                            source=source, dist=dist, color=True)
-                        
-                        res = {'stations': best_path_list_fa,
-                            'time': len(best_path_list_fa)*3}
-                        return jsonify(res), 200
-                    else :
-                        best_path_list_fa = find_best_path_fa(
-                            source=source, dist=dist)
-                        
-                        res = {'stations': best_path_list_fa,
-                            'time': len(best_path_list_fa)*3}
-                        return jsonify(res), 200
-            else:
-                if data.get('source') == None:
-
-                    return 'The source argument is required', 400
-
-                if data.get('dist') == None:
-
-                    return 'The dist argument is required', 400
-        else:
-            return 'The lang argument can be Farsi or English :)', 400
-
-    if request.method == 'GET':
-
-        return 'For more information : https://github.com/mohamadrzm/Metrogo-Core', 405
+    return find_best_path(source=source, dist=destination, color=route_data.color)

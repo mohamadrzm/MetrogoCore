@@ -1,5 +1,5 @@
 from dijkstar import Graph, find_path
-from Levenshtein import distance
+import Levenshtein
 stations_changes_fa = (
     'میدان شهدا',
     'امام حسین',
@@ -23,10 +23,10 @@ stations_changes_fa = (
 )
 
 line_1 = (
-    'تجریش', 'قیطریه', 'شهید صدر', 'قلهک', 'دکتر شریعتی', 'میرداماد', 'شهید حقانی', 'شهید همت',
-    'مصلی امام خمینی', 'شهید بهشتی', 'شهدای هفتم تیر', 'آیت الله طالقانی', 'دروازه دولت', 'سعدی', 'امام خمینی',
-    'پانزده خرداد', 'خیام', 'میدان محمدیه', 'شوش', 'شهید بخارایی', 'علی آباد', 'جوانمرد قصاب', 'شهری ری', 'پالایشگاه',
-    'شاهد', 'نمایشگاه شهر آفتاب', 'واوان', 'فرودگاه امام خمینی', 'شاهد', 'حرم مطهر امام خمینی', 'کهریزیک'
+    'تجریش', 'قیطریه', 'شهید صدر', 'قلهک', 'دکتر شریعتی', 'شهید حقانی', 'شهید همت', 'مصلی امام خمینی',
+    'شهید بهشتی', 'شهدای هفتم تیر', 'آیت الله طالقانی', 'دروازه دولت', 'سعدی', 'امام خمینی', 'پانزده خرداد',
+    'خیام', 'میدان محمدیه', 'شوش', 'شهید بخارایی', 'علی آباد', 'جوانمرد قصاب', 'شهری ری', 'پالایشگاه', 'شاهد',
+    'نمایشگاه شهر آفتاب', 'واوان', 'فرودگاه امام خمینی', 'شاهد', 'حرم مطهر امام خمینی', 'کهریزیک'
 )
 line_2 = (
     'فرهنگسرا', 'تهرانپارس', 'شهید باقری', 'دانشگاه علم و صنعت', 'سرسبز', 'جانبازان', 'فدک', 'سبلان',
@@ -88,45 +88,64 @@ def find_best_path(source, dist, color=False):
         return find_path(graph, source, dist)[0]
 
 
+print(find_best_path('زمزم','قلهک'))
 def Checking_validity_station(station: str):
-    return any(station in line for line in lines)
+
+    if station in line_1 or station in line_2 or station in line_3 or station in line_4 or station in line_5 or station in line_6 or station in line_7 or station in line_1 or station in line_2 or station in line_3 or station in line_4 or station in line_5 or station in line_6 or station in line_7:
+        return True
+
+    else:
+        return False
 
 
+def find_line_of_station(station : str):
 
-def find_line_of_station(station: str):
-    line_map = {
-        'line1': line_1,
-        'line2': line_2,
-        'line3': line_3,
-        'line4': line_4,
-        'line5': line_5,
-        'line6': line_6,
-        'line7': line_7
-    }
+    if station in line_1 or station in line_1 :
+        return 'line1'
+    elif station in line_2 or station in line_2 :
+        return 'line2'
+    elif station in line_3 or station in line_3 :
+        return 'line3'
+    elif station in line_4 or station in line_4 :
+        return 'line4'
+    elif station in line_5 or station in line_5 :
+        return 'line5'
+    elif station in line_6 or station in line_6 :
+        return 'line6'
+    elif station in line_7 or station in line_7 :
+        return 'line7'
+    else :
+        return 1
     
-    for line_name, line_stations in line_map.items():
-        if station in line_stations:
-            return line_name
-    return 1
-
-    
 
 
 
-def check_match_name(station: str):
-    
-    all_stations = line_1 + line_2 + line_3 + line_4 + line_5 + line_6 + line_7
-    distance_thresholds = [0, 1, 2, 3, 4]
-    
-    for threshold in distance_thresholds:
-        for i in all_stations:
-            if distance(i, station) == threshold:
-                return i
-                
+def check_match_name(station: str) :
+
+    allstations = line_1 + line_2 + line_3 + line_4 + line_5 + line_6 + line_7 + \
+        line_1 + line_2 + line_3 + line_4 + line_5 + line_6 + line_7
+
+    for i in allstations:
+
+        if Levenshtein.distance(i, station) == 0:
+            return i
+
+    for i in allstations:
+
+        if Levenshtein.distance(i, station) == 1:
+            return i
+
+    for i in allstations:
+
+        if Levenshtein.distance(i, station) == 2:
+            return i
+    for i in allstations:
+
+        if Levenshtein.distance(i, station) == 3:
+            return i
+    for i in allstations:
+
+        if Levenshtein.distance(i, station) == 4:
+            return i
     return False
-
     
-
-
-
-

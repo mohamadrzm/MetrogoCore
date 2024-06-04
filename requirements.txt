@@ -1,2 +1,3 @@
-Flask==3.0.2
+fastapi==0.111.0
 dijkstar==2.6.0
+Levenshtein==0.25.1
